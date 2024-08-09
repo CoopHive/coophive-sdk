@@ -1,0 +1,26 @@
+{
+  "name": "coophive-sdk",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "rm -rf dist && tsc --build tsconfig.json",
+    "serve": "tsc --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CoopHive/coophive-sdk"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "git+https://github.com/CoopHive/coophive-sdk/issues"
+  },
+  "homepage": "https://github.com/CoopHive/coophive-sdk#readme",
+  "description": "",
+  "devDependencies": {
+    "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "@ethereum-attestation-service/eas-sdk": "^2.5.0"
+  }
+}
