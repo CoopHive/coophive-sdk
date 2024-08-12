@@ -21,6 +21,8 @@
     "typescript": "^5.5.4"
   },
   "dependencies": {
-    "@ethereum-attestation-service/eas-sdk": "^2.5.0"
+    "@ethereum-attestation-service/eas-sdk": "^2.5.0",
+    "ethers": "^6.13.2",
+    "viem": "^2.19.4"
   }
 }
