@@ -157,3 +157,21 @@ export const signOffchainBuyMessage = async (
     signer as TypeDataSigner,
   )
 }
+
+
+export const verifyOffchainBuyMessage = async (
+  easAddress: `0x${string}`,
+  walletClient: WalletClient,
+  attestor: `0x${string}`,
+  attestation: SignedOffchainAttestation
+) => {
+  const signer = clientToSigner(walletClient)
+  if (!signer) return
+  const eas = getEAS(easAddress, signer)
+  
+  const offchain = await eas.getOffchain()
+  return await offchain.verifyOffchainAttestationSignature(
+    attestor,
+    attestation
+  )
+}
