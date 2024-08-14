@@ -44,4 +44,4 @@
 
 ## Defined in
 
-[src/utils.ts:15](https://github.com/CoopHive/coophive-sdk/blob/0566794b0d4e977b07da040496c8b6dca5eb89e3/src/utils.ts#L15)
+[src/utils.ts:15](https://github.com/CoopHive/coophive-sdk/blob/989a0732b29b493e6c3f977468776e83658be021/src/utils.ts#L15)

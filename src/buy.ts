@@ -17,14 +17,14 @@ export const buySchema: string  = "address supplier, uint256 jobCost, address pa
 
 /**
  * Typescript object description of the buySchema
- * @param supplier - The public ethereum address of the desired counterparty, who is selling the resource you are requesting to buy
- * @param jobCost - The cost of the job in wei, to be paid to the supplier upon successful mediation
- * @param paymentToken - The erc20 token used to pay for the job
- * @param creditsRequested - The number of credits requested, credits are stored offchain in a trusted manner and consumed in querymaking
- * @param collateralRequested - The amount of collateral the buyer desire the supplier posts to incentivize correct completion of the job
- * @param offerDeadline - The deadline this offer is active, agreements on this attestation cannot be made after this deadline
- * @param jobDeadline - The deadline the job is active, the final time the job must be completed and results posted to not be slashed
- * @param arbitrationDeadline - The deadline for the arbiter to confirm the sanctity of the transaction, the arbiter will be slashed if the deadline is exceeded
+ * @typeParam supplier - The public ethereum address of the desired counterparty, who is selling the resource you are requesting to buy
+ * @typeParam jobCost - The cost of the job in wei, to be paid to the supplier upon successful mediation
+ * @typeParam paymentToken - The erc20 token used to pay for the job
+ * @typeParam creditsRequested - The number of credits requested, credits are stored offchain in a trusted manner and consumed in querymaking
+ * @typeParam collateralRequested - The amount of collateral the buyer desire the supplier posts to incentivize correct completion of the job
+ * @typeParam offerDeadline - The deadline this offer is active, agreements on this attestation cannot be made after this deadline
+ * @typeParam jobDeadline - The deadline the job is active, the final time the job must be completed and results posted to not be slashed
+ * @typeParam arbitrationDeadline - The deadline for the arbiter to confirm the sanctity of the transaction, the arbiter will be slashed if the deadline is exceeded
  */
 export type BuyStruct = {
   supplier: `0x${string}`,

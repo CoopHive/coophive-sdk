@@ -10,4 +10,4 @@
 
 ## Defined in
 
-[src/sell.ts:13](https://github.com/CoopHive/coophive-sdk/blob/0566794b0d4e977b07da040496c8b6dca5eb89e3/src/sell.ts#L13)
+[src/sell.ts:13](https://github.com/CoopHive/coophive-sdk/blob/989a0732b29b493e6c3f977468776e83658be021/src/sell.ts#L13)
