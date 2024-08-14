@@ -22,6 +22,18 @@
 
 > **schemaUID**: \`0x$\{string\}\`
 
+## Param
+
+schemaUID - The UID of the schema, used to point to the valid EAS resolver-schema pairing
+
+## Param
+
+demander - The public ethereum address of who this attestation belongs to
+
+## Param
+
+data - The data of the attestation
+
 ## Defined in
 
-[src/buy.ts:40](https://github.com/CoopHive/coophive-sdk/blob/14568f8ed39a1a97da258d7874396609b3c1d7b3/src/buy.ts#L40)
+[src/buy.ts:57](https://github.com/CoopHive/coophive-sdk/blob/0566794b0d4e977b07da040496c8b6dca5eb89e3/src/buy.ts#L57)
