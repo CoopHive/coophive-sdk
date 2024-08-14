@@ -14,6 +14,7 @@ import { getEAS, clientToSigner } from './utils'
 
 export const buySchema: string  = "address supplier, uint256 jobCost, address paymentToken, uint256 creditsRequested, uint256 collateralRequested, uint256 offerDeadline, uint256 jobDeadline, uint256 arbitrationDeadline"  
 
+
 export type BuyStruct = {
   supplier: `0x${string}`,
   jobCost: bigint,
@@ -41,6 +42,7 @@ export type BuyParams= {
   demander: `0x${string}`,
   data: BuyStruct
 }
+
 
 const createBuyMessage = ({
   supplier,

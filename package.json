@@ -4,7 +4,8 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "rm -rf dist && tsc --build tsconfig.json",
-    "serve": "tsc --watch"
+    "serve": "tsc --watch",
+    "docs": "typedoc"
   },
   "repository": {
     "type": "git",
@@ -18,11 +19,14 @@
   "homepage": "https://github.com/CoopHive/coophive-sdk#readme",
   "description": "",
   "devDependencies": {
+    "jsdoc-to-markdown": "^8.0.3",
+    "typedoc": "^0.26.5",
+    "typedoc-plugin-markdown": "^4.2.4",
     "typescript": "^5.5.4"
   },
   "dependencies": {
     "@ethereum-attestation-service/eas-sdk": "^2.5.0",
     "ethers": "^6.13.2",
-    "viem": "^2.19.4"
+    "viem": "^2.19.4,"
   }
 }
