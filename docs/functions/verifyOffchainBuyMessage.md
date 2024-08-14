@@ -621,4 +621,4 @@ const hash = await client.writeContract(request)
 
 ## Defined in
 
-[src/buy.ts:164](https://github.com/CoopHive/coophive-sdk/blob/fb0b1c7d70f84a2f5c160ce2d3ac561dcfd4e590/src/buy.ts#L164)
+[src/buy.ts:134](https://github.com/CoopHive/coophive-sdk/blob/14568f8ed39a1a97da258d7874396609b3c1d7b3/src/buy.ts#L134)

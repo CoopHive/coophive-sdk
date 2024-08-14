@@ -20,4 +20,4 @@
 
 ## Defined in
 
-[src/utils.ts:35](https://github.com/CoopHive/coophive-sdk/blob/fb0b1c7d70f84a2f5c160ce2d3ac561dcfd4e590/src/utils.ts#L35)
+[src/utils.ts:35](https://github.com/CoopHive/coophive-sdk/blob/14568f8ed39a1a97da258d7874396609b3c1d7b3/src/utils.ts#L35)

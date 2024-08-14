@@ -89,49 +89,19 @@ const createBuyData = ({
 }
 
 
-export const createBuyAttestation = ({
-  schemaUID,
-  demander,
-  supplier,
-  jobCost,
-  paymentToken,
-  creditsRequested,
-  collateralRequested,
-  offerDeadline,
-  jobDeadline,
-  arbitrationDeadline
-}:{
-  schemaUID: `0x${string}`
-  demander: `0x${string}`
-  supplier: `0x${string}`
-  jobCost: bigint
-  paymentToken: `0x${string}`
-  creditsRequested: bigint
-  collateralRequested: bigint
-  offerDeadline: bigint
-  jobDeadline: bigint
-  arbitrationDeadline: bigint
-}): Attestation => {
+export const createBuyAttestation = (buyParams: BuyParams): Attestation => {
   return {
-    schema: schemaUID,
+    schema: buyParams.schemaUID,
     data: {
-      recipient: demander,
+      recipient: buyParams.demander,
       expirationTime: NO_EXPIRATION,
       revocable: true,
       refUID: ZERO_BYTES32,
-      data: createBuyData({
-        supplier,
-        jobCost,
-        paymentToken,
-        creditsRequested,
-        collateralRequested,
-        offerDeadline,
-        jobDeadline,
-        arbitrationDeadline
-      }),
+      data: createBuyData(buyParams.data),
       value: 0n
     }
   }
+  
 }
 
 
