@@ -613,6 +613,10 @@ const hash = await client.writeContract(request)
 
 `JsonRpcSigner` \| `undefined`
 
+## Description
+
+converts a viem walletClient into an ethers signer to use the eas sdk
+
 ## Defined in
 
-[src/utils.ts:61](https://github.com/CoopHive/coophive-sdk/blob/989a0732b29b493e6c3f977468776e83658be021/src/utils.ts#L61)
+[src/utils.ts:79](https://github.com/CoopHive/coophive-sdk/blob/cfd0d3f7ead89762749d2fff704f01ea6070d919/src/utils.ts#L79)

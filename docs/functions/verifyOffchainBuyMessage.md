@@ -619,6 +619,10 @@ const hash = await client.writeContract(request)
 
 `Promise`\<`undefined` \| `boolean`\>
 
+## Description
+
+verifies an offchain buy from a counterparty, used to determine authenticity of offers negotiated
+
 ## Defined in
 
-[src/buy.ts:151](https://github.com/CoopHive/coophive-sdk/blob/989a0732b29b493e6c3f977468776e83658be021/src/buy.ts#L151)
+[src/buy.ts:150](https://github.com/CoopHive/coophive-sdk/blob/cfd0d3f7ead89762749d2fff704f01ea6070d919/src/buy.ts#L150)

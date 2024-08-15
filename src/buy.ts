@@ -15,25 +15,22 @@ import { getEAS, clientToSigner } from './utils'
 export const buySchema: string  = "address supplier, uint256 jobCost, address paymentToken, uint256 creditsRequested, uint256 collateralRequested, uint256 offerDeadline, uint256 jobDeadline, uint256 arbitrationDeadline"  
 
 
-/**
- * Typescript object description of the buySchema
- * @typeParam supplier - The public ethereum address of the desired counterparty, who is selling the resource you are requesting to buy
- * @typeParam jobCost - The cost of the job in wei, to be paid to the supplier upon successful mediation
- * @typeParam paymentToken - The erc20 token used to pay for the job
- * @typeParam creditsRequested - The number of credits requested, credits are stored offchain in a trusted manner and consumed in querymaking
- * @typeParam collateralRequested - The amount of collateral the buyer desire the supplier posts to incentivize correct completion of the job
- * @typeParam offerDeadline - The deadline this offer is active, agreements on this attestation cannot be made after this deadline
- * @typeParam jobDeadline - The deadline the job is active, the final time the job must be completed and results posted to not be slashed
- * @typeParam arbitrationDeadline - The deadline for the arbiter to confirm the sanctity of the transaction, the arbiter will be slashed if the deadline is exceeded
- */
 export type BuyStruct = {
+  /** The public ethereum address of the desired counterparty */
   supplier: `0x${string}`,
+  /** The cost of the job in wei, to be paid to the supplier upon successful mediation */
   jobCost: bigint,
+  /** The erc20 token used to pay for the job */
   paymentToken: string,
+  /** The number of credits requested, credits are stored offchain in a trusted manner and consumed in querymaking */
   creditsRequested: bigint,
+  /** The amount of collateral the buyer desires the supplier posts to incentivize correct completion of the job */ 
   collateralRequested: bigint,
+  /** The deadline this offer is active, agreements on this attestation cannot be made after this deadline */
   offerDeadline: bigint,
+  /** The deadline the job is active, the final time the job must be completed and results posted to not be slashed */
   jobDeadline: bigint,
+  /** The deadline for the arbiter to confirm the sanctity of the transaction, the arbiter will be slashed if the deadline is exceeded */
   arbitrationDeadline: bigint
 }
 
@@ -48,18 +45,14 @@ export type BuyMessage  = [
   arbitrationDeadline: {name: string, value: any, type: string}
 ]
 
-/**
- * @param - schemaUID - The UID of the schema, used to point to the valid EAS resolver-schema pairing
- * @param - demander - The public ethereum address of who this attestation belongs to
- * @param - data - The data of the attestation
- *
- */
 export type BuyParams= {
+  /** The UID of the schema, used to point to the valid EAS resolver-schema pairing */
   schemaUID: `0x${string}`,
+  /** The public ethereum address of who this attestation belongs to */
   demander: `0x${string}`,
+  /** The data of the attestation */
   data: BuyStruct
 }
-
 
 const createBuyMessage = ({
   supplier,
@@ -105,7 +98,9 @@ const createBuyData = ({
   }))
 }
 
-
+/**
+ * @description converts an attestion into the form consumed by the eas.attest() function
+ */
 export const createBuyAttestation = (buyParams: BuyParams): Attestation => {
   return {
     schema: buyParams.schemaUID,
@@ -121,7 +116,9 @@ export const createBuyAttestation = (buyParams: BuyParams): Attestation => {
   
 }
 
-
+/**
+ * @description attests to an offchain buy attestation, used to negotiate between buyers and seller over exact parameters
+ */
 export const signOffchainBuyMessage = async (
   easAddress: `0x${string}`,
   walletClient: WalletClient,
@@ -147,7 +144,9 @@ export const signOffchainBuyMessage = async (
   )
 }
 
-
+/**
+ * @description verifies an offchain buy from a counterparty, used to determine authenticity of offers negotiated
+ */
 export const verifyOffchainBuyMessage = async (
   easAddress: `0x${string}`,
   walletClient: WalletClient,

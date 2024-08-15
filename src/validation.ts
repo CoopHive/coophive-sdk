@@ -9,6 +9,7 @@ import {
 export const validationSchema: string = "bool isApproved"
 
 export type ValidationStruct = {
+  /** whether the validator is approves the results of the job */
  isApproved: boolean 
 }
 
@@ -17,9 +18,13 @@ export type ValidationMessage = [
 ]
 
 export type ValidationParams = {
+  /** the UID of the validation schema */
   schemaUID: `0x${string}`,
+  /** the UID of the sell attestation, sell attestion references the buy, making a series of credible commitments */
   sellRefUID: `0x${string}`,
+  /** the address of the validator */
   validator: `0x${string}`,
+  /** the data used in the attestation */
   data: ValidationStruct
 }
 
@@ -33,6 +38,9 @@ const createValidationData = ({isApproved}:{isApproved:Boolean}): `0x${string}` 
   return encodeMessage(validationSchema, createValidationMessage({isApproved}))
 }
 
+/**
+ *  @description converts a validation attestion into the form consumed by the eas.attest() function
+ */
 export const createValidationAttestation = ({
   schemaUID,
   validator,

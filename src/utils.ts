@@ -13,16 +13,27 @@ import { ValidationMessage } from './validation'
 import { EAS, SchemaEncoder } from '@ethereum-attestation-service/eas-sdk'
 
 export type Attestation = {
+  /** the schema used in the attestation */
   schema: `0x${string}`,
+  /** the data used in the attestation */
   data: {
+    /** the recipient of the attestation, should be same as attestor */
     recipient: `0x${string}`,
+    /** the expiration time of the attestation */
     expirationTime: bigint,
+    /** whether the attestation is revocable, should be true */
     revocable: Boolean,
+    /** the refUID of the attestation, chains the attestations together */
     refUID: `0x${string}`,
+    /** the data used in the attestation */
     data: `0x${string}`,
+    /** the value of the attestation, if supplied ether */
     value: bigint
   }
 }
+/**
+ * @description encodes a message using the provided schema
+ */
 export const encodeMessage = (
   schema: string,
   message: BuyMessage | SellMessage | ValidationMessage
@@ -31,11 +42,16 @@ export const encodeMessage = (
   return encoder.encodeData(message) as `0x${string}`
 
 }
-
+/**
+ * @description gets an EAS instance
+ */
 export const getEAS = (easContractAddress: `0x${string}`, signer: JsonRpcSigner) => {
   return new EAS(easContractAddress, {signer})
 }
 
+/**
+ * @description converts a viem publicClient into an ethers provider to use the eas sdk
+ */
 export function clientToProvider(publicClient:PublicClient) {
   const { chain, transport  } = publicClient;
   if (!chain || !transport) return
@@ -57,7 +73,9 @@ export function clientToProvider(publicClient:PublicClient) {
     return new JsonRpcProvider(transport.url, network);
 
 }
-
+/**
+ * @description converts a viem walletClient into an ethers signer to use the eas sdk
+ */
 export function clientToSigner(walletClient: WalletClient): JsonRpcSigner | undefined {
   const { account, chain, transport  } = walletClient;
   console.log('acount', account)

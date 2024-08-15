@@ -18,6 +18,10 @@
 
 \`0x$\{string\}\`
 
+## Description
+
+encodes a message using the provided schema
+
 ## Defined in
 
-[src/utils.ts:26](https://github.com/CoopHive/coophive-sdk/blob/989a0732b29b493e6c3f977468776e83658be021/src/utils.ts#L26)
+[src/utils.ts:37](https://github.com/CoopHive/coophive-sdk/blob/cfd0d3f7ead89762749d2fff704f01ea6070d919/src/utils.ts#L37)

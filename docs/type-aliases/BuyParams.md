@@ -14,26 +14,20 @@
 
 > **data**: [`BuyStruct`](BuyStruct.md)
 
+The data of the attestation
+
 ### demander
 
 > **demander**: \`0x$\{string\}\`
+
+The public ethereum address of who this attestation belongs to
 
 ### schemaUID
 
 > **schemaUID**: \`0x$\{string\}\`
 
-## Param
-
-schemaUID - The UID of the schema, used to point to the valid EAS resolver-schema pairing
-
-## Param
-
-demander - The public ethereum address of who this attestation belongs to
-
-## Param
-
-data - The data of the attestation
+The UID of the schema, used to point to the valid EAS resolver-schema pairing
 
 ## Defined in
 
-[src/buy.ts:57](https://github.com/CoopHive/coophive-sdk/blob/989a0732b29b493e6c3f977468776e83658be021/src/buy.ts#L57)
+[src/buy.ts:48](https://github.com/CoopHive/coophive-sdk/blob/cfd0d3f7ead89762749d2fff704f01ea6070d919/src/buy.ts#L48)

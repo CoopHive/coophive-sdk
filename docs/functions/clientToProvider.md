@@ -1359,6 +1359,10 @@ const unwatch = await client.watchPendingTransactions({
 
 `undefined` \| `JsonRpcProvider` \| `FallbackProvider`
 
+## Description
+
+converts a viem publicClient into an ethers provider to use the eas sdk
+
 ## Defined in
 
-[src/utils.ts:39](https://github.com/CoopHive/coophive-sdk/blob/989a0732b29b493e6c3f977468776e83658be021/src/utils.ts#L39)
+[src/utils.ts:55](https://github.com/CoopHive/coophive-sdk/blob/cfd0d3f7ead89762749d2fff704f01ea6070d919/src/utils.ts#L55)
