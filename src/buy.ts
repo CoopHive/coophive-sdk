@@ -1,6 +1,9 @@
 import { encodeMessage, Attestation } from './utils'
 import { WalletClient } from 'viem'
 import {
+  Transaction,
+  AttestationRequest,
+  AttestationRequestData,
   NO_EXPIRATION,
   ZERO_ADDRESS,
   ZERO_BYTES32,
@@ -12,7 +15,7 @@ import {
 import { TypeDataSigner } from '@ethereum-attestation-service/eas-sdk/dist/offchain/typed-data-handler';
 import { getEAS, clientToSigner } from './utils'
 
-export const buySchema: string  = "address supplier, uint256 jobCost, address paymentToken, uint256 creditsRequested, uint256 collateralRequested, uint256 offerDeadline, uint256 jobDeadline, uint256 arbitrationDeadline"  
+export const buySchema: string  = "address supplier, uint256 jobCost, address paymentToken, string image, string prompt, uint256 collateralRequested, uint256 offerDeadline, uint256 jobDeadline, uint256 arbitrationDeadline"  
 
 
 export type BuyStruct = {
@@ -21,9 +24,10 @@ export type BuyStruct = {
   /** The cost of the job in wei, to be paid to the supplier upon successful mediation */
   jobCost: bigint,
   /** The erc20 token used to pay for the job */
-  paymentToken: string,
+  paymentToken: `0x${string}`,
+  image: string,
   /** The number of credits requested, credits are stored offchain in a trusted manner and consumed in querymaking */
-  creditsRequested: bigint,
+  prompt: string,
   /** The amount of collateral the buyer desires the supplier posts to incentivize correct completion of the job */ 
   collateralRequested: bigint,
   /** The deadline this offer is active, agreements on this attestation cannot be made after this deadline */
@@ -38,7 +42,8 @@ export type BuyMessage  = [
   supplier: {name: string, value: any, type: string},
   jobCost: {name: string, value: any, type: string},
   paymentToken: {name: string, value: any, type: string},
-  creditsRequested: {name: string, value: any, type: string},
+  image: {name: string, value: any, type: string},
+  prompt: {name: string, value: any, type: string},
   collateralRequested: {name: string, value: any, type: string},
   offerDeadline: {name: string, value: any, type: string},
   jobDeadline: {name: string, value: any, type: string},
@@ -58,7 +63,8 @@ const createBuyMessage = ({
   supplier,
   jobCost,
   paymentToken,
-  creditsRequested,
+  image,
+  prompt,
   collateralRequested,
   offerDeadline,
   jobDeadline,
@@ -68,7 +74,8 @@ const createBuyMessage = ({
     {name: 'supplier', value: supplier, type: 'address'},
     {name: 'jobCost', value: jobCost, type: 'uint256'},
     {name: 'paymentToken', value: paymentToken, type: 'address'},
-    {name: 'creditsRequested', value: creditsRequested, type: 'uint256'},
+    {name: 'image', value: image, type: 'string'},
+    {name: 'prompt', value: prompt, type: 'string'},
     {name: 'collateralRequested', value: collateralRequested, type: 'uint256'},
     {name: 'offerDeadline', value: offerDeadline, type: 'uint256'},
     {name: 'jobDeadline', value: jobDeadline, type: 'uint256'},
@@ -80,7 +87,8 @@ const createBuyData = ({
   supplier,
   jobCost,
   paymentToken,
-  creditsRequested,
+  image,
+  prompt,
   collateralRequested,
   offerDeadline,
   jobDeadline,
@@ -90,7 +98,8 @@ const createBuyData = ({
     supplier,
     jobCost,
     paymentToken,
-    creditsRequested,
+    image,
+    prompt,
     collateralRequested,
     offerDeadline,
     jobDeadline,
@@ -113,7 +122,7 @@ export const createBuyAttestation = (buyParams: BuyParams): Attestation => {
       value: 0n
     }
   }
-  
+
 }
 
 /**
@@ -127,7 +136,7 @@ export const signOffchainBuyMessage = async (
 )  => {
   const signer = clientToSigner(walletClient)
   if (!signer) return
-  const eas = getEAS(easAddress, signer)
+    const eas = getEAS(easAddress, signer)
   const offchain = await eas.getOffchain()
 
   return await offchain.signOffchainAttestation(
@@ -155,11 +164,36 @@ export const verifyOffchainBuyMessage = async (
 ) => {
   const signer = clientToSigner(walletClient)
   if (!signer) return
-  const eas = getEAS(easAddress, signer)
-  
+    const eas = getEAS(easAddress, signer)
+
   const offchain = await eas.getOffchain()
   return await offchain.verifyOffchainAttestationSignature(
     attestor,
     attestation
   )
+}
+
+
+
+
+
+export const attestBuyMessage = async (
+  easAddress: `0x${string}`,
+  walletClient: WalletClient,
+  buyParams: BuyParams
+): Promise<Transaction<string> | Error > => {
+  const signer = clientToSigner(walletClient)
+  if (!signer) {return new Error("Wallet not connected")}
+  const eas = getEAS(easAddress, signer)
+
+  const requestData: AttestationRequestData = {
+    recipient: buyParams.demander,
+    data: createBuyData(buyParams.data),
+  }
+  const attestationRequest: AttestationRequest = {
+    schema: buyParams.schemaUID,
+    data: requestData
+  }
+  const tx  = await eas.attest(attestationRequest)
+  return tx
 }
