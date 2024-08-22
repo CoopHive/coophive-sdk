@@ -1,5 +1,8 @@
 import { encodeMessage, Attestation } from './utils'
 import { WalletClient } from 'viem'
+import { baseSepolia } from 'viem/chains'
+
+
 import {
   Transaction,
   AttestationRequest,
@@ -12,7 +15,6 @@ import {
   SignedOffchainAttestation,
 } from '@ethereum-attestation-service/eas-sdk'
 
-import { TypeDataSigner } from '@ethereum-attestation-service/eas-sdk/dist/offchain/typed-data-handler';
 import { getEAS, clientToSigner } from './utils'
 
 export const buySchema: string  = "address supplier, uint256 jobCost, address paymentToken, string image, string prompt, uint256 collateralRequested, uint256 offerDeadline, uint256 jobDeadline, uint256 arbitrationDeadline"  
@@ -136,10 +138,13 @@ export const signOffchainBuyMessage = async (
 )  => {
   const signer = clientToSigner(walletClient)
   if (!signer) return
-    const eas = getEAS(easAddress, signer)
+  const eas = getEAS(easAddress, signer)
+  console.log(eas)
   const offchain = await eas.getOffchain()
-
-  return await offchain.signOffchainAttestation(
+  console.log('hi')
+  console.log(offchain)
+  console.log('there')
+  const offchainAttestation =  await offchain.signOffchainAttestation(
     {
       recipient: buyParams.demander,
       expirationTime: 0n,
@@ -149,8 +154,11 @@ export const signOffchainBuyMessage = async (
       refUID: ZERO_BYTES32,
       data: createBuyData(buyParams.data),
     },
-    signer as TypeDataSigner,
+    signer,
   )
+  console.log('offchainAttestation', offchainAttestation)
+
+  return offchainAttestation
 }
 
 /**
@@ -164,9 +172,10 @@ export const verifyOffchainBuyMessage = async (
 ) => {
   const signer = clientToSigner(walletClient)
   if (!signer) return
-    const eas = getEAS(easAddress, signer)
+  const eas = getEAS(easAddress, signer)
 
   const offchain = await eas.getOffchain()
+
   return await offchain.verifyOffchainAttestationSignature(
     attestor,
     attestation

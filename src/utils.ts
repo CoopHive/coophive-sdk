@@ -46,7 +46,10 @@ export const encodeMessage = (
  * @description gets an EAS instance
  */
 export const getEAS = (easContractAddress: `0x${string}`, signer: JsonRpcSigner) => {
-  return new EAS(easContractAddress, {signer})
+  const eas =new EAS(easContractAddress)
+  eas.connect(signer)
+  return eas
+
 }
 
 /**
@@ -91,5 +94,6 @@ export function clientToSigner(walletClient: WalletClient): JsonRpcSigner | unde
     };
     const provider = new BrowserProvider(transport, network);
     const signer = new JsonRpcSigner(provider, account.address);
+    console.log('signer', signer)
     return signer;
 }
