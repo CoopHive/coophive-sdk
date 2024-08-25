@@ -1,5 +1,5 @@
 import { encodeMessage, Attestation } from './utils'
-import { WalletClient } from 'viem'
+import { WalletClient, parseAbiParameters } from 'viem'
 import { baseSepolia } from 'viem/chains'
 import { JsonRpcSigner } from 'ethers'
 
@@ -19,6 +19,7 @@ import { getEAS, clientToSigner } from './utils'
 
 export const buySchema: string  = "address supplier, uint256 jobCost, address paymentToken, string image, string prompt, uint256 collateralRequested, uint256 offerDeadline, uint256 jobDeadline, uint256 arbitrationDeadline"  
 
+export const buyAbi = parseAbiParameters(buySchema)
 
 export type BuyStruct = {
   /** The public ethereum address of the desired counterparty */
