@@ -5,7 +5,8 @@
   "scripts": {
     "build": "rm -rf dist && tsc --build tsconfig.json",
     "serve": "tsc --watch",
-    "docs": "typedoc"
+    "docs": "typedoc",
+    "postinstall": "patch-package"
   },
   "repository": {
     "type": "git",
@@ -25,9 +26,10 @@
     "typescript": "^5.5.4"
   },
   "dependencies": {
-    "@ethereum-attestation-service/eas-sdk": "^2.5.0",
+    "eas-sdk":"file:~/Proto/eas-sdk",
     "docker-compose": "^0.24.8",
     "ethers": "^6.13.2",
+    "patch-package": "^8.0.0",
     "viem": "^2.19.4"
   }
 }

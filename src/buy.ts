@@ -1,7 +1,7 @@
 import { encodeMessage, Attestation } from './utils'
 import { WalletClient } from 'viem'
 import { baseSepolia } from 'viem/chains'
-
+import { JsonRpcSigner } from 'ethers'
 
 import {
   Transaction,
@@ -13,7 +13,7 @@ import {
   OffchainAttestationParams,
   OffchainAttestationOptions,
   SignedOffchainAttestation,
-} from '@ethereum-attestation-service/eas-sdk'
+} from 'eas-sdk'
 
 import { getEAS, clientToSigner } from './utils'
 
@@ -127,23 +127,15 @@ export const createBuyAttestation = (buyParams: BuyParams): Attestation => {
 
 }
 
-/**
- * @description attests to an offchain buy attestation, used to negotiate between buyers and seller over exact parameters
- */
-export const signOffchainBuyMessage = async (
+
+export const ethersSignOffchainBuyMessage = async (
   easAddress: `0x${string}`,
-  walletClient: WalletClient,
+  signer: JsonRpcSigner,
   buyParams: BuyParams,
   options?: OffchainAttestationOptions
 )  => {
-  const signer = clientToSigner(walletClient)
-  if (!signer) return
   const eas = getEAS(easAddress, signer)
-  console.log(eas)
   const offchain = await eas.getOffchain()
-  console.log('hi')
-  console.log(offchain)
-  console.log('there')
   const offchainAttestation =  await offchain.signOffchainAttestation(
     {
       recipient: buyParams.demander,
@@ -156,7 +148,39 @@ export const signOffchainBuyMessage = async (
     },
     signer,
   )
-  console.log('offchainAttestation', offchainAttestation)
+
+  return offchainAttestation
+}
+
+
+/**
+ * @description attests to an offchain buy attestation, used to negotiate between buyers and seller over exact parameters
+ */
+export const signOffchainBuyMessage = async (
+  easAddress: `0x${string}`,
+  privateKey: `0x${string}`,
+  walletClient: WalletClient,
+  buyParams: BuyParams,
+  options?: OffchainAttestationOptions
+): Promise<SignedOffchainAttestation|undefined> => {
+  const signer = clientToSigner(walletClient)
+  if (!signer) return
+  //@ts-expect-error
+  signer.privateKey = privateKey
+  const eas = getEAS(easAddress, signer)
+  const offchain = await eas.getOffchain()
+  const offchainAttestation =  await offchain.signOffchainAttestation(
+    {
+      recipient: buyParams.demander,
+      expirationTime: 0n,
+      time: BigInt(Math.floor(Date.now() / 1000)),
+      revocable: true,
+      schema: buyParams.schemaUID,
+      refUID: ZERO_BYTES32,
+      data: createBuyData(buyParams.data),
+    },
+    signer,
+  )
 
   return offchainAttestation
 }

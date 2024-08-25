@@ -3,7 +3,9 @@ import {
   NO_EXPIRATION,
   ZERO_ADDRESS,
   ZERO_BYTES32,
-} from '@ethereum-attestation-service/eas-sdk'
+} from 'eas-sdk'
+
+
 export const sellSchema: string = "uint256 collateral"
 
 export type SellStruct = {

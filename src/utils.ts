@@ -10,7 +10,7 @@ import type { Account, Chain, Client, Transport, PublicClient, WalletClient  } f
 import { BuyMessage } from './buy'
 import { SellMessage } from './sell'
 import { ValidationMessage } from './validation'
-import { EAS, SchemaEncoder } from '@ethereum-attestation-service/eas-sdk'
+import { EAS, SchemaEncoder } from 'eas-sdk'
 
 export type Attestation = {
   /** the schema used in the attestation */
@@ -81,9 +81,6 @@ export function clientToProvider(publicClient:PublicClient) {
  */
 export function clientToSigner(walletClient: WalletClient): JsonRpcSigner | undefined {
   const { account, chain, transport  } = walletClient;
-  console.log('acount', account)
-  console.log('chain', chain)
-  console.log('transport', transport)
 
   if (!account || !chain || !transport) return 
     const network = {
@@ -94,6 +91,5 @@ export function clientToSigner(walletClient: WalletClient): JsonRpcSigner | unde
     };
     const provider = new BrowserProvider(transport, network);
     const signer = new JsonRpcSigner(provider, account.address);
-    console.log('signer', signer)
     return signer;
 }

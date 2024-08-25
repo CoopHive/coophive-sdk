@@ -5,7 +5,8 @@ import {
   NO_EXPIRATION,
   ZERO_ADDRESS,
   ZERO_BYTES32,
-} from '@ethereum-attestation-service/eas-sdk'
+} from 'eas-sdk'
+
 export const validationSchema: string = "bool isApproved"
 
 export type ValidationStruct = {
