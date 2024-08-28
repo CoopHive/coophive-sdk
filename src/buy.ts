@@ -1,9 +1,8 @@
-import { encodeMessage, Attestation } from './utils'
-import { WalletClient, parseAbiParameters } from 'viem'
+import { PublicClient, WalletClient, parseAbiParameters, decodeAbiParameters } from 'viem'
 import { baseSepolia } from 'viem/chains'
 import { JsonRpcSigner } from 'ethers'
-
 import {
+  EAS,
   Transaction,
   AttestationRequest,
   AttestationRequestData,
@@ -15,11 +14,27 @@ import {
   SignedOffchainAttestation,
 } from 'eas-sdk'
 
-import { getEAS, clientToSigner } from './utils'
+import { getEAS, clientToSigner, clientToProvider, encodeMessage, Attestation } from './utils'
 
 export const buySchema: string  = "address supplier, uint256 jobCost, address paymentToken, string image, string prompt, uint256 collateralRequested, uint256 offerDeadline, uint256 jobDeadline, uint256 arbitrationDeadline"  
-
 export const buyAbi = parseAbiParameters(buySchema)
+
+export const parseBuyAbi = (data: any) => {
+  data =  decodeAbiParameters(buyAbi, data)
+  const [supplier, jobCost, paymentToken, image, prompt, collateralRequested, offerDeadline, jobDeadline, arbitrationDeadline] = data
+  return {
+    supplier,
+    jobCost,
+    paymentToken,
+    image,
+    prompt,
+    collateralRequested,
+    offerDeadline,
+    jobDeadline,
+    arbitrationDeadline
+  }
+} 
+
 
 export type BuyStruct = {
   /** The public ethereum address of the desired counterparty */
@@ -207,10 +222,6 @@ export const verifyOffchainBuyMessage = async (
   )
 }
 
-
-
-
-
 export const attestBuyMessage = async (
   easAddress: `0x${string}`,
   walletClient: WalletClient,
@@ -228,6 +239,7 @@ export const attestBuyMessage = async (
     schema: buyParams.schemaUID,
     data: requestData
   }
+  console.log(attestationRequest)
   const tx  = await eas.attest(attestationRequest)
   return tx
 }

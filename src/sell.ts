@@ -1,10 +1,13 @@
-import { encodeMessage, Attestation } from './utils'
+import { WalletClient, parseAbiParameters } from 'viem'
+import { getEAS, encodeMessage, Attestation, clientToSigner } from './utils'
 import {
   NO_EXPIRATION,
   ZERO_ADDRESS,
   ZERO_BYTES32,
+  Transaction,
+  AttestationRequest,
+  AttestationRequestData
 } from 'eas-sdk'
-
 
 export const sellSchema: string = "uint256 collateral"
 
@@ -64,4 +67,26 @@ export const createSellAttestation = ({
       value: 0n
     }
   } 
+}
+
+
+export const attestSellMessage = async (
+  easAddress: `0x${string}`,
+  walletClient: WalletClient,
+  sellParams: SellParams
+): Promise<Transaction<string> | Error > => {
+  const signer = clientToSigner(walletClient)
+  if (!signer) {return new Error("Wallet not connected")}
+  const eas = getEAS(easAddress, signer)
+
+  const requestData: AttestationRequestData = {
+    recipient: sellParams.seller,
+    data: createSellData(sellParams.data),
+  }
+  const attestationRequest: AttestationRequest = {
+    schema: sellParams.schemaUID,
+    data: requestData
+  }
+  const tx  = await eas.attest(attestationRequest)
+  return tx
 }
